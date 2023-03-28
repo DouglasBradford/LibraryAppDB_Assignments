@@ -9,7 +9,9 @@ select count(distinct id) from users;
 
 -- RESULT --> MANUALLY IT IS PASSED
 
-
--- US 03
+-- US 02
 select count(*) from book_borrow
 where is_returned = 0; -- 474
+
+-- US 03
+select name from book_categories;
