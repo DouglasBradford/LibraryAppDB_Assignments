@@ -1,6 +1,6 @@
-@ui @db @wip
-Feature: As a librarian, I want to know borrowed books number
 
+Feature: As a librarian, I want to know borrowed books number
+  @ui @db  @B28G37-114
   Scenario: verify the total amount of borrowed books
     Given the "librarian" is on the home page
     When the librarian gets borrowed books number
