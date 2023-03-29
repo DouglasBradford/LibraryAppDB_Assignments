@@ -21,4 +21,11 @@ select b.name,author,isbn, year,bc.name,b.description
 from books b join book_categories bc on b.book_category_id = bc.id
 where b.name = 'Cosmos';
 
+-- US 05
+select bc.name,count(*) from book_borrow bb join books b on bb.book_id= b.id
+         join book_categories bc on b.book_category_id = bc.id
+where is_returned = 0
+group by bc.name
+order by count(*) desc;
+
 
