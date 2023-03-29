@@ -103,11 +103,99 @@ public class BookPage_StepDefs {
         //Get data from DB
         String query = "select b.name,author,isbn, year,bc.name,b.description\n" +
                 "from books b join book_categories bc on b.book_category_id = bc.id\n" +
-                "where b.name = '"+bookTitle+"'";
+                "where b.name = '" + bookTitle + "'";
         DB_Util.runQuery(query);
         List<String> expectedBookInfo = DB_Util.getRowDataAsList(1);
         System.out.println("expectedBookInfo = " + expectedBookInfo);
         //Compare
         Assert.assertEquals(expectedBookInfo, actualBookInfo);
+    }
+
+    // US06
+    @When("the librarian click to add book")
+    public void the_librarian_click_to_add_book() {
+        Assert.assertTrue(bookPage.addBook.isDisplayed());
+        bookPage.addBook.click();
+        BrowserUtil.waitFor(2);
+    }
+
+    String bookName;
+
+    @When("the librarian enter book name {string}")
+    public void the_librarian_enter_book_name(String bookName) {
+        bookPage.bookName.sendKeys(bookName);
+        this.bookName = bookName;
+        BrowserUtil.waitFor(2);
+    }
+
+    String ISBN;
+
+    @When("the librarian enter ISBN {string}")
+    public void the_librarian_enter_isbn(String ISBN) {
+        bookPage.isbn.sendKeys(ISBN);
+        this.ISBN = ISBN;
+        BrowserUtil.waitFor(2);
+    }
+
+    String year;
+
+    @When("the librarian enter year {string}")
+    public void the_librarian_enter_year(String year) {
+        bookPage.year.sendKeys(year);
+        this.year = year;
+        BrowserUtil.waitFor(2);
+    }
+
+    String author;
+
+    @When("the librarian enter author {string}")
+    public void the_librarian_enter_author(String author) {
+        bookPage.author.sendKeys(author);
+        this.author = author;
+        BrowserUtil.waitFor(2);
+    }
+
+    String bookCategory;
+
+    @When("the librarian choose the book category {string}")
+    public void the_librarian_choose_the_book_category(String bookCategory) {
+        Select select = new Select(bookPage.categoryDropdown);
+        select.selectByVisibleText(bookCategory);
+        this.bookCategory = bookCategory;
+        BrowserUtil.waitFor(2);
+    }
+
+    @When("the librarian click to save changes")
+    public void the_librarian_click_to_save_changes() {
+        Assert.assertTrue(bookPage.saveChanges.isDisplayed());
+        bookPage.saveChanges.click();
+        BrowserUtil.waitFor(3);
+    }
+
+    @Then("verify {string} message is displayed")
+    public void verify_message_is_displayed(String expectedMessage) {
+        String actualMessage = bookPage.toastMessage.getText();
+        System.out.println("actualMessage = " + actualMessage);
+        Assert.assertEquals(expectedMessage, actualMessage);
+    }
+
+
+
+    @Then("verify {string} information must match with DB")
+    public void verify_information_must_match_with_db(String bookName2) {
+        List<String> actualBookInfo = new ArrayList<>();
+        actualBookInfo.add(bookName);
+        actualBookInfo.add(ISBN);
+        actualBookInfo.add(year);
+        actualBookInfo.add(author);
+        actualBookInfo.add(bookCategory);
+        System.out.println("actualBookInfo = " + actualBookInfo);
+        String query = "select b.name,isbn,year,author,bc.name from books b join book_categories bc on b.book_category_id = bc.id\n" +
+                "where b.name ='" + bookName2 + "'";
+        DB_Util.runQuery(query);
+        List<String> expectedBookInfo = DB_Util.getRowDataAsList(1);
+        System.out.println("expectedBookInfo = " + expectedBookInfo);
+        Assert.assertEquals(expectedBookInfo, actualBookInfo);
+
     }
 }
