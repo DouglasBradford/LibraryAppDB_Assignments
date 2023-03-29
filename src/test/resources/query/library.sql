@@ -28,4 +28,12 @@ where is_returned = 0
 group by bc.name
 order by count(*) desc;
 
+-- US 06
+select b.name,isbn,year,author,bc.name from books b join book_categories bc on b.book_category_id = bc.id
+where b.name ='Cosmos';
+
+select b.name,isbn,year,author,bc.name from books b join book_categories bc on b.book_category_id = bc.id
+order by isbn desc;
+
+
 
