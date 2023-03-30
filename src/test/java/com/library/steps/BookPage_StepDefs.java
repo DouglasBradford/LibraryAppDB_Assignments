@@ -34,7 +34,12 @@ public class BookPage_StepDefs {
         loginPage.loginButton.click();
 
         BrowserUtil.waitFor(4);
-        String expectedTitle = "dashboard";
+        String expectedTitle = "";
+        if(usertype.equals("librarian")){
+        expectedTitle = "dashboard";
+        }else if(usertype.equals("student")){
+            expectedTitle = "books";
+        }
         String actualTitle = Driver.getDriver().getCurrentUrl();
         Assert.assertTrue(actualTitle.contains(expectedTitle));
     }
